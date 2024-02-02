@@ -15,4 +15,4 @@ function toggleContent() {
       bankerArea.classList.add('hidden');
       paymentDropdown.classList.remove('hidden');
     }
-  }
+  } 
