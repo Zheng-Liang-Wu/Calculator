@@ -2,6 +2,7 @@ var basicUnits = 30;
 var eachUnit = 10;
 var normalWin;
 var selectedBanker; // 保存選中的莊家
+var extraUnits;
 
 function toggleContent() {
   var selfDrawnWinValue = document.querySelector('input[name="selfDrawnWin"]:checked').value;
@@ -51,11 +52,11 @@ function calculateMoney() {
 function calculateExtraUnits(continueBanker) {
   var minExtraUnitsPerContinue = 1;
   var ExtraUnitsPerContinue = 2;
-  var extraUnits = (minExtraUnitsPerContinue + ExtraUnitsPerContinue * continueBanker) * eachUnit;
+  var extraUnits = (minExtraUnitsPerContinue + ExtraUnitsPerContinue * continueBanker) * eachUnit + basicUnits;
   return extraUnits;
 }
 
-  function calculatePlayerAmounts(wonUnit, normalWin, continueBanker, selfDrawnWin, extraUnits, ) {
+  function calculatePlayerAmounts(wonUnit, normalWin, continueBanker, selfDrawnWin, extraUnits,) {
     var amounts = {
         'player1': 0,
         'player2': 0,
@@ -63,11 +64,15 @@ function calculateExtraUnits(continueBanker) {
         'player4': 0,
     };
     
-    
-    console.log('Self Drawn Win:', wonUnit, normalWin, continueBanker, selfDrawnWin, extraUnits);
+    console.log('Self Drawn Win:', wonUnit, normalWin, continueBanker, selfDrawnWin, extraUnits,);
+
+
+    var winnerSelect = document.getElementById('winner');
+    var selectedPlayer = winnerSelect.value;
 
     if (selfDrawnWin === 'yes') {
-      if (selectedBanker === 'banker') {
+      // 莊家自摸
+      if (selectedPlayer === selectedBanker) {
         amounts[selectedBanker] = normalWin * 3;
     
         // 扣其他玩家
@@ -76,11 +81,13 @@ function calculateExtraUnits(continueBanker) {
                 amounts[player] -= normalWin; // 扣 normalWin * 1
             }
         }
+
     } else {
-        amounts[selectedBanker] = (normalWin * 2) + extraUnits;
+        amounts[selectedPlayer] = normalWin*2 + extraUnits;
+        amounts[selectedBanker] = -extraUnits;
         for (var player in amounts) {
-          if (player !== selectedBanker) {
-              amounts[player] -= normalWin; // 扣 normalWin * 1
+          if (player !== selectedPlayer && player !== selectedBanker) {
+              amounts[player] = -normalWin; // 扣 normalWin * 1
           }
       }
 }
