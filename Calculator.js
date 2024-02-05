@@ -69,6 +69,8 @@ function calculateExtraUnits(continueBanker) {
 
     var winnerSelect = document.getElementById('winner');
     var selectedPlayer = winnerSelect.value;
+    var loserSelect = document.getElementById('loser');
+    var loserSelect = loserSelect.value;
 
     if (selfDrawnWin === 'yes') {
       // 莊家自摸
@@ -92,7 +94,9 @@ function calculateExtraUnits(continueBanker) {
       }
 }
     } else {
-        amounts[selectedBanker] = normalWin;
+        amounts[selectedPlayer] = normalWin;
+        amounts[loserSelect] = - normalWin;
+
     }
 
     console.log('Final Amounts:', amounts);
