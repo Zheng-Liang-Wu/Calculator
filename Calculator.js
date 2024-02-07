@@ -52,7 +52,7 @@ function calculateMoney() {
 function calculateExtraUnits(continueBanker) {
   var minExtraUnitsPerContinue = 1;
   var ExtraUnitsPerContinue = 2;
-  var extraUnits = (minExtraUnitsPerContinue + ExtraUnitsPerContinue * continueBanker) * eachUnit + basicUnits;
+  var extraUnits = (minExtraUnitsPerContinue + ExtraUnitsPerContinue * continueBanker) * eachUnit + basicUnits  ;
   return extraUnits;
 }
 
@@ -75,21 +75,21 @@ function calculateExtraUnits(continueBanker) {
     if (selfDrawnWin === 'yes') {
       // 莊家自摸
       if (selectedPlayer === selectedBanker) {
-        amounts[selectedBanker] = normalWin * 3;
+        amounts[selectedBanker] = normalWin * 3 ;
     
         // 扣其他玩家
         for (var player in amounts) {
             if (player !== selectedBanker) {
-                amounts[player] -= normalWin; // 扣 normalWin * 1
+                amounts[player] -= normalWin; 
             }
         }
 
     } else {
-        amounts[selectedPlayer] = normalWin*2 + extraUnits;
-        amounts[selectedBanker] = -extraUnits;
+        amounts[selectedPlayer] = normalWin*2 + extraUnits + (eachUnit * wonUnit);
+        amounts[selectedBanker] = -(extraUnits + eachUnit * wonUnit);
         for (var player in amounts) {
           if (player !== selectedPlayer && player !== selectedBanker) {
-              amounts[player] = -normalWin; // 扣 normalWin * 1
+              amounts[player] = -normalWin; 
           }
       }
 }
@@ -105,16 +105,23 @@ function calculateExtraUnits(continueBanker) {
 }
 
 function updateAmounts(amounts) {
-  var playerAmounts = document.getElementById('playerAmounts');
+  var playerAmountsElement = document.getElementById('playerAmounts');
   
   for (var player in amounts){
     var amount = amounts[player];
-    var playerParagraph = document.getElementById('player'+ player.replace(/\D/g, '')); // 將 player 變數中的非數字字符去除，只留下數字部分。
+    var playerId = player.replace(/\D/g, ''); // 將 player 變數中的非數字字符去除，只保留數字部分。
 
-    if (playerParagraph) {
-      playerParagraph.textContent = player + ':' + amount + '元';
+    if (playerAmounts[playerId] === undefined) {
+      playerAmounts[playerId] = 0; // 如果玩家的累積金額未定義，則將其初始化為0。
     }
     
+    playerAmounts[playerId] += amount; // 將當前的金額加到玩家的累積金額中。
+
+    var playerParagraph = document.getElementById('player' + playerId);
+
+    if (playerParagraph) {
+      playerParagraph.textContent = player + ':' + playerAmounts[playerId] + '元'; // 更新玩家的累積金額。
+    }
   }
 }
 
