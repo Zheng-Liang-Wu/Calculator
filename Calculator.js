@@ -11,17 +11,30 @@ function toggleContent() {
   var bankerArea = document.getElementById('bankerArea');
   var paymentDropdown = document.getElementById('paymentDropdown');
 
+  // 將 console.log 移至取得值之後
+  var selfDrawnWinner = document.getElementById('winner').value; // 取得自摸贏家的值
+  var banker = document.getElementById('banker').value; // 取得莊家的值
+
+  console.log("selfDrawnWinner:", selfDrawnWinner);
+  console.log("banker:", banker);
+  
   if (selfDrawnWinValue === 'yes') {
     whoBanker.classList.remove('hidden');
-    bankerArea.classList.remove('hidden');
+    
+    if (selfDrawnWinner === banker) { // 檢查自摸贏家是否與莊家相同
+      bankerArea.classList.add('hidden');
+    } else {
+      bankerArea.classList.remove('hidden');
+    }
+
     paymentDropdown.classList.add('hidden');
-} else {
+  } else {
     whoBanker.classList.add('hidden');
     bankerArea.classList.add('hidden');
     paymentDropdown.classList.remove('hidden');
   }
-  
 }
+
 function updateBanker() {
   var bankerSelect = document.getElementById('banker');
   selectedBanker = bankerSelect.value;
