@@ -11,7 +11,8 @@
   <div class="container">
     <h2>麻將計算台數</h2>
     <label for="winner">贏錢的人：</label>
-    <select id="winner">
+    <select id="winner" onchange="toggleContent()">
+      <option value="selectPlayer">請選擇玩家</option>
       <option value="player1">東林</option>
       <option value="player2">奇岳</option>
       <option value="player3">政亮</option>
@@ -22,7 +23,8 @@
     <input type="radio" name="selfDrawnWin" value="no" onchange="toggleContent()">無 
     <div id="whoBanker" class="hidden">
     <label for="banker">莊家</label>
-    <select id="banker">
+    <select id="banker" onchange="updateBanker(); toggleContent()">
+      <option value="selectPlayer">請選擇玩家</option>
       <option value="player1">東林</option>
       <option value="player2">奇岳</option>
       <option value="player3">政亮</option>
@@ -36,6 +38,7 @@
     <div id="paymentDropdown" class="hidden">
     <label for="loser">輸錢的人：</label>
     <select id="loser">
+      <option value="selectPlayer">請選擇玩家</option>
       <option value="player1">東林</option>
       <option value="player2">奇岳</option>
       <option value="player3">政亮</option>
@@ -51,7 +54,8 @@
       <p id="player2">奇岳：0元</p>
       <p id="player3">政亮：0元</p>
       <p id="player4">梅子：0元</p>
-    </div></div><hr>
-    <button onclick="clearData()">清除</button>
+    </div><hr>
+    <button id="clearButton" onclick="location.reload()">清除</button>
+  </div>
   </body>
 </html>
